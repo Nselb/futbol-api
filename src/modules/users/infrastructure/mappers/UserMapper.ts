@@ -1,7 +1,6 @@
 import { User as PrismaUser } from '@prisma/client';
 import { RoleMapper } from 'src/modules/roles/infrastructure/mappers/RoleMapper';
 import { User } from '../../domain/entities/User';
-import { UserResponseDto } from '../../application/dtos/user-response.dto';
 
 export class UserMapper {
   static toDomain(user: PrismaUser): User {
@@ -24,9 +23,5 @@ export class UserMapper {
       role: RoleMapper.toPrisma(user.role),
       createdAt: user.createdAt,
     };
-  }
-
-  static toResponse(user: User): UserResponseDto {
-    return new UserResponseDto(user.id, user.username, user.name);
   }
 }

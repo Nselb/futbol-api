@@ -6,7 +6,7 @@ import {
   USER_REPO_TOKEN,
   type IUserRepository,
 } from '../../domain/repositories/IUserRepository';
-import { UserMapper } from '../../infrastructure/mappers/UserMapper';
+import { UserMapper } from '../../application/mappers/UserMapper';
 import { CreateUserDto } from '../dtos/create-user.dto';
 import { UserResponseDto } from '../dtos/user-response.dto';
 

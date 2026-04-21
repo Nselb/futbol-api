@@ -21,3 +21,54 @@ model User {
   role      Role     @default(VOCAL)
   createdAt DateTime @default(now())
 }
+
+model Player {
+  id        String       @id @default(uuid())
+  name      String
+  number    Int
+  teamId    String?
+  status    PlayerStatus @default(BENCHED)
+  team      Team?        @relation(fields: [teamId], references: [id])
+  createdAt DateTime     @default(now())
+}
+
+model Team {
+  id             String   @id @default(uuid())
+  name           String   @unique
+  players        Player[]
+  createdAt      DateTime @default(now())
+  matchesAsLocal Match[]  @relation("LocalTeam")
+  matchesAsAway  Match[]  @relation("AwayTeam")
+}
+
+model Match {
+  id            String         @id @default(uuid())
+  localTeamId   String
+  awayTeamId    String
+  status        MatchStatus    @default(PROGRAMMED)
+  createdAt     DateTime?
+  localTeam     Team           @relation("LocalTeam", fields: [localTeamId], references: [id])
+  awayTeam      Team           @relation("AwayTeam", fields: [awayTeamId], references: [id])
+  timeIntervals TimeInterval[]
+}
+
+model TimeInterval {
+  id        String    @id @default(uuid())
+  matchId   String
+  half      Int
+  stratedAt DateTime
+  stoppedAt DateTime?
+  match     Match     @relation(fields: [matchId], references: [id])
+}
+
+enum PlayerStatus {
+  PLAYING
+  BENCHED
+}
+
+enum MatchStatus {
+  PROGRAMMED
+  IN_PROGRESS
+  STOPPED
+  ENDED
+}

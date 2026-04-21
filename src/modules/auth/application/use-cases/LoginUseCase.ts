@@ -29,7 +29,7 @@ export class LoginUseCase {
 
     const jwtPayload = new JwtPayloadDto(user.id, user.username, user.role);
 
-    const token = this.jwtService.sign(jwtPayload);
+    const token = this.jwtService.sign({ ...jwtPayload });
 
     return new LoginResponseDto(token);
   }
