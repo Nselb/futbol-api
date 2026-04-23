@@ -1,0 +1,6 @@
+export enum EventType {
+  GOAL = 'GOAL',
+  YELLOW_CARD = 'YELLOW_CARD',
+  RED_CARD = 'RED_CARD',
+  SUBSTITUTION = 'SUBSTITUTION',
+}

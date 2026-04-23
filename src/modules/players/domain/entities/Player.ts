@@ -6,8 +6,8 @@ export class Player {
     readonly name: string,
     readonly number: number,
     public teamId: string | null,
-    public status: PlayerStatus,
-    readonly createdAt: Date,
+    public status: PlayerStatus = PlayerStatus.BENCHED,
+    readonly createdAt: Date = new Date(),
   ) {}
 
   assignTeam(teamId: string) {
