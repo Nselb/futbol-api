@@ -38,7 +38,7 @@ export class PrismaMatchRepository implements IMatchRepository {
             id: interval.id,
             matchId: match.id,
             half: interval.half,
-            stratedAt: interval.startedAt,
+            startedAt: interval.startedAt,
             stoppedAt: interval.finishedAt,
           },
         });

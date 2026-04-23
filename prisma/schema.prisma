@@ -59,7 +59,7 @@ model TimeInterval {
   id        String    @id @default(uuid())
   matchId   String
   half      Int
-  stratedAt DateTime
+  startedAt DateTime
   stoppedAt DateTime?
   match     Match     @relation(fields: [matchId], references: [id])
 }

@@ -5,11 +5,13 @@ import {
 } from '../../domain/repositories/IMatchRepository';
 import { MatchResponseDto } from '../dtos/match-response.dto';
 import { MatchMapper } from '../mappers/MatchMapper';
+import { MatchesGateway } from '../../infrastructure/gateways/matches.gateway';
 
 @Injectable()
 export class PauseMatchUseCase {
   constructor(
     @Inject(MATCH_REPO_TOKEN) private readonly repository: IMatchRepository,
+    private gateway: MatchesGateway,
   ) {}
 
   async execute(matchId: string): Promise<MatchResponseDto> {

@@ -17,7 +17,7 @@ export class Match {
 
   start() {
     switch (this.status) {
-      case MatchStatus.SCHEDULED:
+      case MatchStatus.PROGRAMMED:
         this.status = MatchStatus.IN_PROGRESS;
         this.half = 1;
         this._openInterval();
@@ -132,7 +132,7 @@ export class Match {
       crypto.randomUUID(),
       homeTeamId,
       awayTeamId,
-      MatchStatus.SCHEDULED,
+      MatchStatus.PROGRAMMED,
       1,
       [],
       [],

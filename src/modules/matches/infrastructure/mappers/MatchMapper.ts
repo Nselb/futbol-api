@@ -17,7 +17,7 @@ export class MatchMapper {
   static toDomain(data: PrismaMatchFull): Match {
     const intervals = data.timeIntervals.map(
       (i) =>
-        new TimeInterval(i.id, i.matchId, i.half, i.stratedAt, i.stoppedAt),
+        new TimeInterval(i.id, i.matchId, i.half, i.startedAt, i.stoppedAt),
     );
 
     const events = data.events.map(

@@ -4,11 +4,13 @@ import { TEAM_REPO_TOKEN } from './domain/repository/ITeamRepository';
 import { PrismaTeamRepository } from './infrastructure/repository/PrismaTeamRepository';
 import { TeamsController } from './presentation/teams.controller';
 import { PlayersModule } from '../players/players.module';
+import { CreateTeamUseCase } from './application/use-cases/CreateTeamUseCase';
 
 @Module({
   imports: [PlayersModule],
   controllers: [TeamsController],
   providers: [
+    CreateTeamUseCase,
     AddPlayerUseCase,
     { provide: TEAM_REPO_TOKEN, useClass: PrismaTeamRepository },
   ],

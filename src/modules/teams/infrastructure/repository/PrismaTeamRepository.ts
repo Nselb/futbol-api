@@ -15,10 +15,17 @@ export class PrismaTeamRepository implements ITeamRepository {
         update: { name: team.name },
         create: { id: team.id, name: team.name },
       });
-      if (team.players.length > 0) {
-        await tx.player.updateMany({
-          where: { id: { in: team.players.map((p) => p.id) } },
-          data: { teamId: team.id },
+      for (const player of team.players) {
+        await tx.player.upsert({
+          where: { id: player.id },
+          update: { teamId: team.id },
+          create: {
+            id: player.id,
+            name: player.name,
+            number: player.number,
+            teamId: team.id,
+            status: player.status,
+          },
         });
       }
     });

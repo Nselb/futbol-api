@@ -4,7 +4,7 @@ import { Roles } from 'src/shared/decorators/roles.decorator';
 import { CreateMatchDto } from '../application/dtos/create-match.dto';
 import { RegisterEventDto } from '../application/dtos/register-event.dto';
 import { CreateMatchUseCase } from '../application/use-cases/CrateMatchUseCase';
-import { FinishMatchUseCase } from '../application/use-cases/FinishMatchUsecase';
+import { FinishMatchUseCase } from '../application/use-cases/FinishMatchUseCase';
 import { GetLiveMatchUseCase } from '../application/use-cases/GetLiveMatchUseCase';
 import { HalfTimeUseCase } from '../application/use-cases/HalfTimeUseCase';
 import { PauseMatchUseCase } from '../application/use-cases/PauseMatchUseCase';

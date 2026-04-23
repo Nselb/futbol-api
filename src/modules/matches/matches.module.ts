@@ -6,9 +6,10 @@ import { CreateMatchUseCase } from './application/use-cases/CrateMatchUseCase';
 import { StartMatchUseCase } from './application/use-cases/StartMatchUseCase';
 import { PauseMatchUseCase } from './application/use-cases/PauseMatchUseCase';
 import { HalfTimeUseCase } from './application/use-cases/HalfTimeUseCase';
-import { FinishMatchUseCase } from './application/use-cases/FinishMatchUsecase';
+import { FinishMatchUseCase } from './application/use-cases/FinishMatchUseCase';
 import { RegisterEventUseCase } from './application/use-cases/RegisterEventUseCase';
 import { GetLiveMatchUseCase } from './application/use-cases/GetLiveMatchUseCase';
+import { MatchesGateway } from './infrastructure/gateways/matches.gateway';
 
 @Module({
   controllers: [MatchesController],
@@ -21,6 +22,7 @@ import { GetLiveMatchUseCase } from './application/use-cases/GetLiveMatchUseCase
     FinishMatchUseCase,
     RegisterEventUseCase,
     GetLiveMatchUseCase,
+    MatchesGateway,
   ],
 })
 export class MatchesModule {}
