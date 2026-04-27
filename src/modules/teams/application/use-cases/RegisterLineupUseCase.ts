@@ -13,6 +13,7 @@ import {
   PLAYER_REPO_TOKEN,
 } from 'src/modules/players/domain/repositories/IPlayerRepository';
 import { PlayerStatus } from 'src/modules/players/domain/enums/PlayerStatus';
+import { Player } from 'src/modules/players/domain/entities/Player';
 
 @Injectable()
 export class RegisterLineupUseCase {
@@ -33,11 +34,13 @@ export class RegisterLineupUseCase {
     const team = await this.teamRepository.findById(teamId);
     if (!team) throw new NotFoundException('Team not found');
 
-    const players = await Promise.all(
+    const fetched = await Promise.all(
       playerIds.map((id) => this.playerRepository.findById(id)),
     );
 
-    for (const player of players) {
+    const validatedPlayers: Player[] = [];
+
+    for (const player of fetched) {
       if (!player) throw new NotFoundException('Player not found');
       if (player.teamId !== teamId) {
         throw new BadRequestException(
@@ -49,12 +52,13 @@ export class RegisterLineupUseCase {
           `Player ${player.id} is already playing`,
         );
       }
+      validatedPlayers.push(player);
     }
 
     await Promise.all(
-      players.map((player) => {
-        player!.play();
-        return this.playerRepository.save(player!);
+      validatedPlayers.map((player) => {
+        player.play();
+        return this.playerRepository.save(player);
       }),
     );
 
