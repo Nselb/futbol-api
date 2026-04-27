@@ -7,6 +7,7 @@ import { PlayersModule } from '../players/players.module';
 import { CreateTeamUseCase } from './application/use-cases/CreateTeamUseCase';
 import { GetTeamPlayersUseCase } from './application/use-cases/GetTeamPlayersUseCase';
 import { RegisterLineupUseCase } from './application/use-cases/RegisterLineupUseCase';
+import { GetAllTeamsUseCase } from './application/use-cases/GetAllTeamsUseCase';
 
 @Module({
   imports: [PlayersModule],
@@ -16,6 +17,7 @@ import { RegisterLineupUseCase } from './application/use-cases/RegisterLineupUse
     AddPlayerUseCase,
     GetTeamPlayersUseCase,
     RegisterLineupUseCase,
+    GetAllTeamsUseCase,
     { provide: TEAM_REPO_TOKEN, useClass: PrismaTeamRepository },
   ],
   exports: [TEAM_REPO_TOKEN],

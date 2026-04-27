@@ -6,6 +6,8 @@ import { RegisterEventDto } from '../application/dtos/register-event.dto';
 import { CreateMatchUseCase } from '../application/use-cases/CrateMatchUseCase';
 import { FinishMatchUseCase } from '../application/use-cases/FinishMatchUseCase';
 import { GetLiveMatchUseCase } from '../application/use-cases/GetLiveMatchUseCase';
+import { GetAllMatchesUseCase } from '../application/use-cases/GetAllMatchesUseCase';
+import { Public } from 'src/shared/decorators/is-public.decorator';
 import { HalfTimeUseCase } from '../application/use-cases/HalfTimeUseCase';
 import { PauseMatchUseCase } from '../application/use-cases/PauseMatchUseCase';
 import { RegisterEventUseCase } from '../application/use-cases/RegisterEventUseCase';
@@ -21,7 +23,14 @@ export class MatchesController {
     private readonly finishMatch: FinishMatchUseCase,
     private readonly registerEvent: RegisterEventUseCase,
     private readonly getLiveMatch: GetLiveMatchUseCase,
+    private readonly getAllMatches: GetAllMatchesUseCase,
   ) {}
+
+  @Get()
+  @Public()
+  getAll() {
+    return this.getAllMatches.execute();
+  }
 
   @Post()
   @Roles(Role.ADMIN)

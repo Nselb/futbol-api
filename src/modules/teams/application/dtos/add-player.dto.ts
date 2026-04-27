@@ -4,5 +4,6 @@ export class AddPlayerDto {
   @IsUUID()
   playerId: string;
 
-  teamId?: string;
+  @IsUUID()
+  teamId: string;
 }

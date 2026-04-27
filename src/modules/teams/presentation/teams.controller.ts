@@ -6,6 +6,7 @@ import { CreateTeamUseCase } from '../application/use-cases/CreateTeamUseCase';
 import { AddPlayerUseCase } from '../application/use-cases/AddPlayerUseCase';
 import { GetTeamPlayersUseCase } from '../application/use-cases/GetTeamPlayersUseCase';
 import { RegisterLineupUseCase } from '../application/use-cases/RegisterLineupUseCase';
+import { GetAllTeamsUseCase } from '../application/use-cases/GetAllTeamsUseCase';
 import { CreateTeamDto } from '../application/dtos/create-team.dto';
 import { AddPlayerDto } from '../application/dtos/add-player.dto';
 import { RegisterLineupDto } from '../application/dtos/register-lineup.dto';
@@ -17,7 +18,14 @@ export class TeamsController {
     private readonly addPlayerUseCase: AddPlayerUseCase,
     private readonly getTeamPlayersUseCase: GetTeamPlayersUseCase,
     private readonly registerLineupUseCase: RegisterLineupUseCase,
+    private readonly getAllTeamsUseCase: GetAllTeamsUseCase,
   ) {}
+
+  @Get()
+  @Public()
+  getAll() {
+    return this.getAllTeamsUseCase.execute();
+  }
 
   @Post()
   @Roles(Role.ADMIN)

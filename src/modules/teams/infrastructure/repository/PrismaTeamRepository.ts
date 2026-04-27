@@ -39,4 +39,12 @@ export class PrismaTeamRepository implements ITeamRepository {
     });
     return data ? TeamMapper.toDomain(data) : null;
   }
+
+  async findAll(): Promise<Team[]> {
+    const data = await this.prisma.team.findMany({
+      include: { players: true },
+      orderBy: { createdAt: 'desc' },
+    });
+    return data.map(TeamMapper.toDomain);
+  }
 }

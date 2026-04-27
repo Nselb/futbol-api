@@ -9,6 +9,7 @@ import { HalfTimeUseCase } from './application/use-cases/HalfTimeUseCase';
 import { FinishMatchUseCase } from './application/use-cases/FinishMatchUseCase';
 import { RegisterEventUseCase } from './application/use-cases/RegisterEventUseCase';
 import { GetLiveMatchUseCase } from './application/use-cases/GetLiveMatchUseCase';
+import { GetAllMatchesUseCase } from './application/use-cases/GetAllMatchesUseCase';
 import { MatchesGateway } from './infrastructure/gateways/matches.gateway';
 import { PlayersModule } from '../players/players.module';
 
@@ -24,6 +25,7 @@ import { PlayersModule } from '../players/players.module';
     FinishMatchUseCase,
     RegisterEventUseCase,
     GetLiveMatchUseCase,
+    GetAllMatchesUseCase,
     MatchesGateway,
   ],
 })
