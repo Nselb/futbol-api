@@ -2,6 +2,7 @@ import { FinishMatchUseCase } from './FinishMatchUseCase';
 import { NotFoundException } from '@nestjs/common';
 import { Match } from '../../domain/entities/Match';
 import { MatchStatus } from '../../domain/enums/MatchStatus';
+import { TimeInterval } from '../../domain/entities/TimeInterval';
 import { Player } from 'src/modules/players/domain/entities/Player';
 import { PlayerStatus } from 'src/modules/players/domain/enums/PlayerStatus';
 
@@ -36,7 +37,7 @@ describe('FinishMatchUseCase', () => {
       awayTeamId: 'team-away',
       status: MatchStatus.IN_PROGRESS,
       half: 2,
-      intervals: [],
+      intervals: [new TimeInterval('int-1', 'match-1', 2, new Date(), null)],
       events: [],
       createdAt: new Date(),
     });

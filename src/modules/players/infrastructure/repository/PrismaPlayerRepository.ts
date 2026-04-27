@@ -18,8 +18,11 @@ export class PrismaPlayerRepository implements IPlayerRepository {
         teamId: player.teamId,
       },
       create: {
+        id: player.id,
         name: player.name,
         number: player.number,
+        status: PlayerStatusMapper.toPrisma(player.status),
+        teamId: player.teamId,
       },
     });
     return PlayerMapper.toDomain(data);
