@@ -26,6 +26,9 @@ export class FinishMatchUseCase {
     match.finish();
     await this.repository.save(match);
 
+    const response = MatchMapper.toResponse(match);
+    this.gateway.emitMatchUpdated(matchId, response);
+
     const [homePlayers, awayPlayers] = await Promise.all([
       this.playerRepository.findByTeam(match.localTeamId),
       this.playerRepository.findByTeam(match.awayTeamId),
@@ -38,8 +41,6 @@ export class FinishMatchUseCase {
       }),
     );
 
-    const response = MatchMapper.toResponse(match);
-    this.gateway.emitMatchUpdated(matchId, response);
     return response;
   }
 }
