@@ -16,4 +16,12 @@ export class Player {
     }
     this.teamId = teamId;
   }
+
+  play(): void {
+    this.status = PlayerStatus.PLAYING;
+  }
+
+  bench(): void {
+    this.status = PlayerStatus.BENCHED;
+  }
 }
