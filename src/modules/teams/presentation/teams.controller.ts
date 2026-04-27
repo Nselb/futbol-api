@@ -13,7 +13,7 @@ import { RegisterLineupDto } from '../application/dtos/register-lineup.dto';
 @Controller('teams')
 export class TeamsController {
   constructor(
-    private readonly createTeam: CreateTeamUseCase,
+    private readonly createTeamUseCase: CreateTeamUseCase,
     private readonly addPlayerUseCase: AddPlayerUseCase,
     private readonly getTeamPlayersUseCase: GetTeamPlayersUseCase,
     private readonly registerLineupUseCase: RegisterLineupUseCase,
@@ -22,7 +22,7 @@ export class TeamsController {
   @Post()
   @Roles(Role.ADMIN)
   create(@Body() dto: CreateTeamDto) {
-    return this.createTeam.execute(dto);
+    return this.createTeamUseCase.execute(dto);
   }
 
   @Post('addPlayer')
