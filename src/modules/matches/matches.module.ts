@@ -10,8 +10,10 @@ import { FinishMatchUseCase } from './application/use-cases/FinishMatchUseCase';
 import { RegisterEventUseCase } from './application/use-cases/RegisterEventUseCase';
 import { GetLiveMatchUseCase } from './application/use-cases/GetLiveMatchUseCase';
 import { MatchesGateway } from './infrastructure/gateways/matches.gateway';
+import { PlayersModule } from '../players/players.module';
 
 @Module({
+  imports: [PlayersModule],
   controllers: [MatchesController],
   providers: [
     { provide: MATCH_REPO_TOKEN, useClass: PrismaMatchRepository },
