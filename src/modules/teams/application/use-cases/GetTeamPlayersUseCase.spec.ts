@@ -1,8 +1,8 @@
 import { GetTeamPlayersUseCase } from './GetTeamPlayersUseCase';
 import { NotFoundException } from '@nestjs/common';
 import { Team } from '../../domain/entities/Team';
-import { Player } from '../../../players/domain/entities/Player';
-import { PlayerStatus } from '../../../players/domain/enums/PlayerStatus';
+import { Player } from 'src/modules/players/domain/entities/Player';
+import { PlayerStatus } from 'src/modules/players/domain/enums/PlayerStatus';
 
 describe('GetTeamPlayersUseCase', () => {
   const mockTeamRepo = { findById: jest.fn(), save: jest.fn() };

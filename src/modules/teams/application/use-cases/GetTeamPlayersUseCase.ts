@@ -6,7 +6,7 @@ import {
 import {
   type IPlayerRepository,
   PLAYER_REPO_TOKEN,
-} from '../../../players/domain/repositories/IPlayerRepository';
+} from 'src/modules/players/domain/repositories/IPlayerRepository';
 
 @Injectable()
 export class GetTeamPlayersUseCase {
