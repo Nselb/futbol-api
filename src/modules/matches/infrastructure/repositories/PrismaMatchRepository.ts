@@ -3,15 +3,15 @@ import { PrismaService } from 'src/shared/infrastructure/database/prisma.service
 import { Match } from '../../domain/entities/Match';
 import { IMatchRepository } from '../../domain/repositories/IMatchRepository';
 import { MatchMapper } from '../mappers/MatchMapper';
-import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class PrismaMatchRepository implements IMatchRepository {
   constructor(private prisma: PrismaService) {}
 
-  private get include(): Prisma.MatchInclude {
-    return { timeIntervals: true, events: true };
-  }
+  private readonly include = {
+    timeIntervals: true,
+    events: { include: { player: { select: { teamId: true } } } },
+  } as const;
 
   async save(match: Match): Promise<Match> {
     await this.prisma.$transaction(async (tx) => {
@@ -52,6 +52,7 @@ export class PrismaMatchRepository implements IMatchRepository {
             id: event.id,
             matchId: match.id,
             playerId: event.playerId,
+            incomingPlayerId: event.incomingPlayerId,
             type: event.type,
             minute: event.minute,
             half: event.half,

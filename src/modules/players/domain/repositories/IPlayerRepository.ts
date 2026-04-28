@@ -6,4 +6,5 @@ export interface IPlayerRepository {
   save(player: Player): Promise<Player>;
   findById(id: string): Promise<Player | null>;
   findByTeam(teamId: string): Promise<Player[]>;
+  findByNameAndNumber(name: string, number: number): Promise<Player | null>;
 }

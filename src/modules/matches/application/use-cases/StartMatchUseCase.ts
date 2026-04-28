@@ -5,11 +5,13 @@ import {
 } from '../../domain/repositories/IMatchRepository';
 import { MatchResponseDto } from '../dtos/match-response.dto';
 import { MatchMapper } from '../mappers/MatchMapper';
+import { MatchesGateway } from '../../infrastructure/gateways/matches.gateway';
 
 @Injectable()
 export class StartMatchUseCase {
   constructor(
     @Inject(MATCH_REPO_TOKEN) private readonly repository: IMatchRepository,
+    private readonly gateway: MatchesGateway,
   ) {}
 
   async execute(matchId: string): Promise<MatchResponseDto> {
@@ -21,6 +23,8 @@ export class StartMatchUseCase {
     match.start();
 
     await this.repository.save(match);
-    return MatchMapper.toResponse(match);
+    const response = MatchMapper.toResponse(match);
+    this.gateway.emitMatchUpdated(matchId, response);
+    return response;
   }
 }

@@ -5,11 +5,13 @@ import {
   MATCH_REPO_TOKEN,
 } from '../../domain/repositories/IMatchRepository';
 import { MatchMapper } from '../mappers/MatchMapper';
+import { MatchesGateway } from '../../infrastructure/gateways/matches.gateway';
 
 @Injectable()
 export class HalfTimeUseCase {
   constructor(
     @Inject(MATCH_REPO_TOKEN) private readonly repository: IMatchRepository,
+    private readonly gateway: MatchesGateway,
   ) {}
 
   async execute(matchId: string): Promise<MatchResponseDto> {
@@ -19,6 +21,8 @@ export class HalfTimeUseCase {
     }
     match.halfTime();
     await this.repository.save(match);
-    return MatchMapper.toResponse(match);
+    const response = MatchMapper.toResponse(match);
+    this.gateway.emitMatchUpdated(matchId, response);
+    return response;
   }
 }

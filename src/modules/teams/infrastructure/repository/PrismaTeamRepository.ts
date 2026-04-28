@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { ITeamRepository } from '../../domain/repository/ITeamRepository';
 import { Team } from '../../domain/entities/Team';
 import { PrismaService } from 'src/shared/infrastructure/database/prisma.service';
@@ -40,11 +40,19 @@ export class PrismaTeamRepository implements ITeamRepository {
     return data ? TeamMapper.toDomain(data) : null;
   }
 
+  async findByName(name: string): Promise<Team | null> {
+    const data = await this.prisma.team.findUnique({
+      where: { name },
+      include: { players: true },
+    });
+    return data ? TeamMapper.toDomain(data) : null;
+  }
+
   async findAll(): Promise<Team[]> {
     const data = await this.prisma.team.findMany({
       include: { players: true },
       orderBy: { createdAt: 'desc' },
     });
-    return data.map(TeamMapper.toDomain);
+    return data.map((t) => TeamMapper.toDomain(t));
   }
 }

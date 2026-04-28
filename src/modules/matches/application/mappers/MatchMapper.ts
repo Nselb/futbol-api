@@ -23,6 +23,7 @@ export class MatchMapper {
             e.minute,
             e.half,
             e.createdAt,
+            e.incomingPlayerId,
           ),
       ),
       match.createdAt,

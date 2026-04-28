@@ -1,6 +1,10 @@
+import { Logger } from '@nestjs/common';
 import {
   ConnectedSocket,
   MessageBody,
+  OnGatewayConnection,
+  OnGatewayDisconnect,
+  OnGatewayInit,
   SubscribeMessage,
   WebSocketGateway,
   WebSocketServer,
@@ -8,10 +12,26 @@ import {
 import { Server, Socket } from 'socket.io';
 import { MatchResponseDto } from '../../application/dtos/match-response.dto';
 
-@WebSocketGateway({})
-export class MatchesGateway {
+@WebSocketGateway({ cors: { origin: '*' } })
+export class MatchesGateway
+  implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
+{
   @WebSocketServer()
   server: Server;
+
+  private readonly logger = new Logger(MatchesGateway.name);
+
+  afterInit() {
+    this.logger.log('WebSocket gateway initialized');
+  }
+
+  handleConnection(client: Socket) {
+    this.logger.log(`Client connected: ${client.id}`);
+  }
+
+  handleDisconnect(client: Socket) {
+    this.logger.log(`Client disconnected: ${client.id}`);
+  }
 
   @SubscribeMessage('match:join')
   async handleJoin(
@@ -20,6 +40,7 @@ export class MatchesGateway {
   ) {
     await client.join(`match:${matchId}`);
     client.emit('match:joined', { matchId });
+    this.logger.log(`Client ${client.id} joined match:${matchId}`);
   }
 
   @SubscribeMessage('match:leave')
@@ -28,6 +49,7 @@ export class MatchesGateway {
     @ConnectedSocket() client: Socket,
   ) {
     await client.leave(`match:${matchId}`);
+    this.logger.log(`Client ${client.id} left match:${matchId}`);
   }
 
   emitMatchUpdated(matchId: string, data: MatchResponseDto) {

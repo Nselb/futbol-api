@@ -10,7 +10,10 @@ import { MatchStatus } from '../../domain/enums/MatchStatus';
 import { EventType } from '../../domain/enums/EventType';
 
 export type PrismaMatchFull = Prisma.MatchGetPayload<{
-  include: { timeIntervals: true; events: true };
+  include: {
+    timeIntervals: true;
+    events: { include: { player: { select: { teamId: true } } } };
+  };
 }>;
 
 export class MatchMapper {
@@ -20,18 +23,20 @@ export class MatchMapper {
         new TimeInterval(i.id, i.matchId, i.half, i.startedAt, i.stoppedAt),
     );
 
-    const events = data.events.map(
-      (e) =>
-        new MatchEvent(
-          e.id,
-          e.matchId,
-          e.playerId,
-          MatchMapper.eventTypeToDomain(e.type),
-          e.minute,
-          e.half,
-          e.createdAt,
-        ),
-    );
+    const playerTeams = new Map<string, string>();
+    const events = data.events.map((e) => {
+      if (e.player.teamId) playerTeams.set(e.playerId, e.player.teamId);
+      return new MatchEvent(
+        e.id,
+        e.matchId,
+        e.playerId,
+        MatchMapper.eventTypeToDomain(e.type),
+        e.minute,
+        e.half,
+        e.createdAt,
+        e.incomingPlayerId,
+      );
+    });
 
     return Match.reconstitute({
       id: data.id,
@@ -42,6 +47,7 @@ export class MatchMapper {
       intervals,
       events,
       createdAt: data.createdAt,
+      playerTeams,
     });
   }
 

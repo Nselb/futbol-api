@@ -23,14 +23,17 @@ model User {
 }
 
 model Player {
-  id           String       @id @default(uuid())
-  name         String
-  number       Int
-  teamId       String?
-  status       PlayerStatus @default(BENCHED)
-  team         Team?        @relation(fields: [teamId], references: [id])
-  createdAt    DateTime     @default(now())
-  eventMatches EventMatch[]
+  id                   String       @id @default(uuid())
+  name                 String
+  number               Int
+  teamId               String?
+  status               PlayerStatus @default(BENCHED)
+  team                 Team?        @relation(fields: [teamId], references: [id])
+  createdAt            DateTime     @default(now())
+  eventMatches         EventMatch[] @relation("OutgoingPlayer")
+  incomingEventMatches EventMatch[] @relation("IncomingPlayer")
+
+  @@unique([name, number])
 }
 
 model Team {
@@ -65,15 +68,17 @@ model TimeInterval {
 }
 
 model EventMatch {
-  id        String    @id @default(uuid())
-  matchId   String
-  playerId  String
-  type      EventType
-  minute    Int
-  half      Int
-  createdAt DateTime  @default(now())
-  match     Match     @relation(fields: [matchId], references: [id])
-  player    Player    @relation(fields: [playerId], references: [id])
+  id               String    @id @default(uuid())
+  matchId          String
+  playerId         String
+  incomingPlayerId String?
+  type             EventType
+  minute           Int
+  half             Int
+  createdAt        DateTime  @default(now())
+  match            Match     @relation(fields: [matchId], references: [id])
+  player           Player    @relation("OutgoingPlayer", fields: [playerId], references: [id])
+  incomingPlayer   Player?   @relation("IncomingPlayer", fields: [incomingPlayerId], references: [id])
 }
 
 enum PlayerStatus {

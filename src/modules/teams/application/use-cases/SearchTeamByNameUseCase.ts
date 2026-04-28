@@ -1,4 +1,4 @@
-import { Inject, Injectable, Logger } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import {
   type ITeamRepository,
   TEAM_REPO_TOKEN,
@@ -7,14 +7,14 @@ import { TeamMapper } from '../mappers/TeamMapper';
 import { TeamResponseDto } from '../dtos/team-response.dto';
 
 @Injectable()
-export class GetAllTeamsUseCase {
+export class SearchTeamByNameUseCase {
   constructor(
     @Inject(TEAM_REPO_TOKEN) private readonly teamRepository: ITeamRepository,
   ) {}
 
-  async execute(): Promise<TeamResponseDto[]> {
-    const teams = await this.teamRepository.findAll();
-    return teams.map((t) => TeamMapper.toResponse(t));
+  async execute(name: string): Promise<TeamResponseDto> {
+    const team = await this.teamRepository.findByName(name);
+    if (!team) throw new NotFoundException('Team not found');
+    return TeamMapper.toResponse(team);
   }
 }
-

@@ -23,6 +23,8 @@ export class PauseMatchUseCase {
     match.pause();
 
     await this.repository.save(match);
-    return MatchMapper.toResponse(match);
+    const response = MatchMapper.toResponse(match);
+    this.gateway.emitMatchUpdated(matchId, response);
+    return response;
   }
 }

@@ -13,6 +13,7 @@ export class Match {
     readonly intervals: TimeInterval[],
     readonly events: MatchEvent[],
     readonly createdAt: Date,
+    private readonly playerTeams: Map<string, string> = new Map(),
   ) {}
 
   start() {
@@ -60,11 +61,19 @@ export class Match {
     this._closeActiveInterval();
   }
 
-  registerEvent(playerId: string, type: EventType, minute: number): MatchEvent {
+  registerEvent(
+    playerId: string,
+    type: EventType,
+    minute: number,
+    incomingPlayerId?: string,
+  ): MatchEvent {
     if (this.status !== MatchStatus.IN_PROGRESS) {
       throw new Error(
         'Events can only be registered while match is in progress',
       );
+    }
+    if (type === EventType.SUBSTITUTION && !incomingPlayerId) {
+      throw new Error('Substitution events require an incomingPlayerId');
     }
     const event = new MatchEvent(
       crypto.randomUUID(),
@@ -74,6 +83,7 @@ export class Match {
       minute,
       this.half,
       new Date(),
+      incomingPlayerId ?? null,
     );
     this.events.push(event);
     return event;
@@ -123,8 +133,8 @@ export class Match {
     }
   }
 
-  private _isFromTeam(_playerId: string, _teamId: string): boolean {
-    return true;
+  private _isFromTeam(playerId: string, teamId: string): boolean {
+    return this.playerTeams.get(playerId) === teamId;
   }
 
   static create(homeTeamId: string, awayTeamId: string): Match {
@@ -149,6 +159,7 @@ export class Match {
     intervals: TimeInterval[];
     events: MatchEvent[];
     createdAt: Date;
+    playerTeams?: Map<string, string>;
   }): Match {
     return new Match(
       data.id,
@@ -159,6 +170,7 @@ export class Match {
       data.intervals,
       data.events,
       data.createdAt,
+      data.playerTeams ?? new Map<string, string>(),
     );
   }
 }

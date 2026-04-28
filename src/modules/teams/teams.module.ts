@@ -8,16 +8,20 @@ import { CreateTeamUseCase } from './application/use-cases/CreateTeamUseCase';
 import { GetTeamPlayersUseCase } from './application/use-cases/GetTeamPlayersUseCase';
 import { RegisterLineupUseCase } from './application/use-cases/RegisterLineupUseCase';
 import { GetAllTeamsUseCase } from './application/use-cases/GetAllTeamsUseCase';
+import { UpdateTeamUseCase } from './application/use-cases/UpdateTeamUseCase';
+import { SearchTeamByNameUseCase } from './application/use-cases/SearchTeamByNameUseCase';
 
 @Module({
   imports: [PlayersModule],
   controllers: [TeamsController],
   providers: [
     CreateTeamUseCase,
+    UpdateTeamUseCase,
     AddPlayerUseCase,
     GetTeamPlayersUseCase,
     RegisterLineupUseCase,
     GetAllTeamsUseCase,
+    SearchTeamByNameUseCase,
     { provide: TEAM_REPO_TOKEN, useClass: PrismaTeamRepository },
   ],
   exports: [TEAM_REPO_TOKEN],

@@ -37,4 +37,11 @@ export class PrismaPlayerRepository implements IPlayerRepository {
     const data = await this.prisma.player.findMany({ where: { teamId } });
     return data.map((p) => PlayerMapper.toDomain(p));
   }
+
+  async findByNameAndNumber(name: string, number: number): Promise<Player | null> {
+    const data = await this.prisma.player.findFirst({
+      where: { name, number },
+    });
+    return data ? PlayerMapper.toDomain(data) : null;
+  }
 }

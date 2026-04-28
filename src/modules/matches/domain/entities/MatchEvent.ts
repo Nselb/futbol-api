@@ -9,5 +9,6 @@ export class MatchEvent {
     public minute: number,
     public half: number,
     public createdAt: Date,
+    public incomingPlayerId: string | null = null,
   ) {}
 }
