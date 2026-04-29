@@ -12,7 +12,7 @@ import {
 import { Server, Socket } from 'socket.io';
 import { MatchResponseDto } from '../../application/dtos/match-response.dto';
 
-@WebSocketGateway({ cors: { origin: '*' } })
+@WebSocketGateway(3001, { cors: { origin: '*' } })
 export class MatchesGateway
   implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
 {

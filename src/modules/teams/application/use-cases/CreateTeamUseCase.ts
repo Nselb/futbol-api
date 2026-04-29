@@ -51,7 +51,6 @@ export class CreateTeamUseCase {
       number,
     );
     if (existing) {
-      if (existing.teamId !== null) return null;
       existing.teamId = teamId;
       return existing;
     }

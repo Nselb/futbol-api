@@ -1,4 +1,4 @@
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { Inject, Injectable, Logger, NotFoundException } from '@nestjs/common';
 import {
   type IMatchRepository,
   MATCH_REPO_TOKEN,
@@ -23,6 +23,8 @@ export class StartMatchUseCase {
     match.start();
 
     await this.repository.save(match);
+
+    Logger.log(match);
     const response = MatchMapper.toResponse(match);
     this.gateway.emitMatchUpdated(matchId, response);
     return response;

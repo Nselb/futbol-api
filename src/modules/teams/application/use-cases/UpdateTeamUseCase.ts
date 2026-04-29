@@ -79,7 +79,6 @@ export class UpdateTeamUseCase {
       number,
     );
     if (existing) {
-      if (existing.teamId !== null) return null;
       existing.teamId = teamId;
       return existing;
     }

@@ -33,7 +33,7 @@ model Player {
   eventMatches         EventMatch[] @relation("OutgoingPlayer")
   incomingEventMatches EventMatch[] @relation("IncomingPlayer")
 
-  @@unique([name, number])
+  @@unique([name, number, teamId])
 }
 
 model Team {

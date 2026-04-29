@@ -40,7 +40,7 @@ export class PrismaPlayerRepository implements IPlayerRepository {
 
   async findByNameAndNumber(name: string, number: number): Promise<Player | null> {
     const data = await this.prisma.player.findFirst({
-      where: { name, number },
+      where: { name, number, teamId: null },
     });
     return data ? PlayerMapper.toDomain(data) : null;
   }
