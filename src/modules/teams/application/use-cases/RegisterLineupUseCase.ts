@@ -28,7 +28,8 @@ export class RegisterLineupUseCase {
     @Inject(TEAM_REPO_TOKEN) private readonly teamRepository: ITeamRepository,
     @Inject(PLAYER_REPO_TOKEN)
     private readonly playerRepository: IPlayerRepository,
-    @Inject(MATCH_REPO_TOKEN) private readonly matchRepository: IMatchRepository,
+    @Inject(MATCH_REPO_TOKEN)
+    private readonly matchRepository: IMatchRepository,
     private readonly gateway: MatchesGateway,
   ) {}
 
@@ -74,7 +75,7 @@ export class RegisterLineupUseCase {
     if (!match) throw new NotFoundException('Match not found');
 
     const response = MatchMapper.toResponse(match);
-    this.gateway.emitLineupRegistered(matchId, response);
+    this.gateway.emitMatchUpdated(matchId, response);
 
     return response;
   }
