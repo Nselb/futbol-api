@@ -28,5 +28,6 @@ import { PlayersModule } from '../players/players.module';
     GetAllMatchesUseCase,
     MatchesGateway,
   ],
+  exports: [MATCH_REPO_TOKEN, MatchesGateway],
 })
 export class MatchesModule {}

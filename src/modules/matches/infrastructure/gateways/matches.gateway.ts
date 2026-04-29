@@ -55,4 +55,8 @@ export class MatchesGateway
   emitMatchUpdated(matchId: string, data: MatchResponseDto) {
     this.server.to(`match:${matchId}`).emit('match:updated', data);
   }
+
+  emitLineupRegistered(matchId: string, data: MatchResponseDto) {
+    this.server.to(`match:${matchId}`).emit('match:lineup-registered', data);
+  }
 }

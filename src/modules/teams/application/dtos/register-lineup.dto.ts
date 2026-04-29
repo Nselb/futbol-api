@@ -19,4 +19,7 @@ export class RegisterLineupDto {
   @ArrayMinSize(7)
   @ArrayMaxSize(7)
   playerIds: string[];
+
+  @IsUUID('4')
+  matchId: string;
 }

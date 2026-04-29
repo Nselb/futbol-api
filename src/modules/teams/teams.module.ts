@@ -4,6 +4,7 @@ import { TEAM_REPO_TOKEN } from './domain/repository/ITeamRepository';
 import { PrismaTeamRepository } from './infrastructure/repository/PrismaTeamRepository';
 import { TeamsController } from './presentation/teams.controller';
 import { PlayersModule } from '../players/players.module';
+import { MatchesModule } from '../matches/matches.module';
 import { CreateTeamUseCase } from './application/use-cases/CreateTeamUseCase';
 import { GetTeamPlayersUseCase } from './application/use-cases/GetTeamPlayersUseCase';
 import { RegisterLineupUseCase } from './application/use-cases/RegisterLineupUseCase';
@@ -12,7 +13,7 @@ import { UpdateTeamUseCase } from './application/use-cases/UpdateTeamUseCase';
 import { SearchTeamByNameUseCase } from './application/use-cases/SearchTeamByNameUseCase';
 
 @Module({
-  imports: [PlayersModule],
+  imports: [PlayersModule, MatchesModule],
   controllers: [TeamsController],
   providers: [
     CreateTeamUseCase,

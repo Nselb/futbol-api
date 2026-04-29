@@ -79,6 +79,10 @@ export class TeamsController {
     @Param('id') id: string,
     @Body() dto: RegisterLineupDto,
   ) {
-    return await this.registerLineupUseCase.execute(id, dto.playerIds);
+    return await this.registerLineupUseCase.execute(
+      dto.matchId,
+      id,
+      dto.playerIds,
+    );
   }
 }

@@ -14,6 +14,13 @@ import {
 } from 'src/modules/players/domain/repositories/IPlayerRepository';
 import { PlayerStatus } from 'src/modules/players/domain/enums/PlayerStatus';
 import { Player } from 'src/modules/players/domain/entities/Player';
+import { MatchesGateway } from 'src/modules/matches/infrastructure/gateways/matches.gateway';
+import {
+  type IMatchRepository,
+  MATCH_REPO_TOKEN,
+} from 'src/modules/matches/domain/repositories/IMatchRepository';
+import { MatchResponseDto } from 'src/modules/matches/application/dtos/match-response.dto';
+import { MatchMapper } from 'src/modules/matches/application/mappers/MatchMapper';
 
 @Injectable()
 export class RegisterLineupUseCase {
@@ -21,12 +28,15 @@ export class RegisterLineupUseCase {
     @Inject(TEAM_REPO_TOKEN) private readonly teamRepository: ITeamRepository,
     @Inject(PLAYER_REPO_TOKEN)
     private readonly playerRepository: IPlayerRepository,
+    @Inject(MATCH_REPO_TOKEN) private readonly matchRepository: IMatchRepository,
+    private readonly gateway: MatchesGateway,
   ) {}
 
   async execute(
+    matchId: string,
     teamId: string,
     playerIds: string[],
-  ): Promise<{ playerIds: string[] }> {
+  ): Promise<MatchResponseDto> {
     if (playerIds.length !== 7) {
       throw new BadRequestException('Exactly 7 players are required');
     }
@@ -48,9 +58,7 @@ export class RegisterLineupUseCase {
         );
       }
       if (player.status === PlayerStatus.PLAYING) {
-        throw new BadRequestException(
-          `Player ${player.id} is already playing`,
-        );
+        throw new BadRequestException(`Player ${player.id} is already playing`);
       }
       validatedPlayers.push(player);
     }
@@ -62,6 +70,12 @@ export class RegisterLineupUseCase {
       }),
     );
 
-    return { playerIds };
+    const match = await this.matchRepository.findById(matchId);
+    if (!match) throw new NotFoundException('Match not found');
+
+    const response = MatchMapper.toResponse(match);
+    this.gateway.emitLineupRegistered(matchId, response);
+
+    return response;
   }
 }
