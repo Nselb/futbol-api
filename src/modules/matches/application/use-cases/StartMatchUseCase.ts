@@ -1,11 +1,11 @@
-import { Inject, Injectable, Logger, NotFoundException } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import {
   type IMatchRepository,
   MATCH_REPO_TOKEN,
 } from '../../domain/repositories/IMatchRepository';
+import { MatchesGateway } from '../../infrastructure/gateways/matches.gateway';
 import { MatchResponseDto } from '../dtos/match-response.dto';
 import { MatchMapper } from '../mappers/MatchMapper';
-import { MatchesGateway } from '../../infrastructure/gateways/matches.gateway';
 
 @Injectable()
 export class StartMatchUseCase {
@@ -23,8 +23,6 @@ export class StartMatchUseCase {
     match.start();
 
     await this.repository.save(match);
-
-    Logger.log(match);
     const response = MatchMapper.toResponse(match);
     this.gateway.emitMatchUpdated(matchId, response);
     return response;

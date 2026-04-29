@@ -23,7 +23,7 @@ export class Match {
         this.half = 1;
         this._openInterval();
         break;
-      case MatchStatus.PAUSED:
+      case MatchStatus.STOPPED:
         this.status = MatchStatus.IN_PROGRESS;
         this._openInterval();
         break;
@@ -41,7 +41,7 @@ export class Match {
     if (this.status !== MatchStatus.IN_PROGRESS) {
       throw new Error('Only an in-progress match can be paused');
     }
-    this.status = MatchStatus.PAUSED;
+    this.status = MatchStatus.STOPPED;
     this._closeActiveInterval();
   }
 

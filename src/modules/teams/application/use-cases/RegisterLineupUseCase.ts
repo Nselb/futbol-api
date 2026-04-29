@@ -2,25 +2,25 @@ import {
   BadRequestException,
   Inject,
   Injectable,
-  NotFoundException,
+  NotFoundException
 } from '@nestjs/common';
-import {
-  type ITeamRepository,
-  TEAM_REPO_TOKEN,
-} from '../../domain/repository/ITeamRepository';
-import {
-  type IPlayerRepository,
-  PLAYER_REPO_TOKEN,
-} from 'src/modules/players/domain/repositories/IPlayerRepository';
-import { PlayerStatus } from 'src/modules/players/domain/enums/PlayerStatus';
-import { Player } from 'src/modules/players/domain/entities/Player';
-import { MatchesGateway } from 'src/modules/matches/infrastructure/gateways/matches.gateway';
+import { MatchResponseDto } from 'src/modules/matches/application/dtos/match-response.dto';
+import { MatchMapper } from 'src/modules/matches/application/mappers/MatchMapper';
 import {
   type IMatchRepository,
   MATCH_REPO_TOKEN,
 } from 'src/modules/matches/domain/repositories/IMatchRepository';
-import { MatchResponseDto } from 'src/modules/matches/application/dtos/match-response.dto';
-import { MatchMapper } from 'src/modules/matches/application/mappers/MatchMapper';
+import { MatchesGateway } from 'src/modules/matches/infrastructure/gateways/matches.gateway';
+import { Player } from 'src/modules/players/domain/entities/Player';
+import { PlayerStatus } from 'src/modules/players/domain/enums/PlayerStatus';
+import {
+  type IPlayerRepository,
+  PLAYER_REPO_TOKEN,
+} from 'src/modules/players/domain/repositories/IPlayerRepository';
+import {
+  type ITeamRepository,
+  TEAM_REPO_TOKEN,
+} from '../../domain/repository/ITeamRepository';
 
 @Injectable()
 export class RegisterLineupUseCase {

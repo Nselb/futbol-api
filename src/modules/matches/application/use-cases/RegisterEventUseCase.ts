@@ -1,17 +1,17 @@
-import { Inject, Injectable, Logger, NotFoundException } from '@nestjs/common';
-import {
-  type IMatchRepository,
-  MATCH_REPO_TOKEN,
-} from '../../domain/repositories/IMatchRepository';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import {
   type IPlayerRepository,
   PLAYER_REPO_TOKEN,
 } from '../../../players/domain/repositories/IPlayerRepository';
+import { EventType } from '../../domain/enums/EventType';
+import {
+  type IMatchRepository,
+  MATCH_REPO_TOKEN,
+} from '../../domain/repositories/IMatchRepository';
+import { MatchesGateway } from '../../infrastructure/gateways/matches.gateway';
 import { MatchResponseDto } from '../dtos/match-response.dto';
 import { RegisterEventDto } from '../dtos/register-event.dto';
 import { MatchMapper } from '../mappers/MatchMapper';
-import { MatchesGateway } from '../../infrastructure/gateways/matches.gateway';
-import { EventType } from '../../domain/enums/EventType';
 
 @Injectable()
 export class RegisterEventUseCase {
@@ -56,7 +56,6 @@ export class RegisterEventUseCase {
 
     await this.repository.save(match);
     const response = MatchMapper.toResponse(match);
-    Logger.debug(response);
     this.gateway.emitMatchUpdated(matchId, response);
     return response;
   }

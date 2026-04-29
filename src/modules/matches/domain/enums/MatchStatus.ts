@@ -1,7 +1,7 @@
 export enum MatchStatus {
   PROGRAMMED = 'PROGRAMMED',
   IN_PROGRESS = 'IN_PROGRESS',
-  PAUSED = 'PAUSED',
+  STOPPED = 'STOPPED',
   HALF_TIME = 'HALF_TIME',
   FINISHED = 'FINISHED',
 }

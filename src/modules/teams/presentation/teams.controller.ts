@@ -2,25 +2,24 @@ import {
   Body,
   Controller,
   Get,
-  Logger,
   Param,
   Patch,
   Post,
-  Query,
+  Query
 } from '@nestjs/common';
-import { Roles } from 'src/shared/decorators/roles.decorator';
 import { Role } from 'src/modules/roles/domain/enums/Role';
 import { Public } from 'src/shared/decorators/is-public.decorator';
-import { CreateTeamUseCase } from '../application/use-cases/CreateTeamUseCase';
-import { UpdateTeamUseCase } from '../application/use-cases/UpdateTeamUseCase';
+import { Roles } from 'src/shared/decorators/roles.decorator';
+import { AddPlayerDto } from '../application/dtos/add-player.dto';
+import { CreateTeamDto } from '../application/dtos/create-team.dto';
+import { RegisterLineupDto } from '../application/dtos/register-lineup.dto';
 import { AddPlayerUseCase } from '../application/use-cases/AddPlayerUseCase';
+import { CreateTeamUseCase } from '../application/use-cases/CreateTeamUseCase';
+import { GetAllTeamsUseCase } from '../application/use-cases/GetAllTeamsUseCase';
 import { GetTeamPlayersUseCase } from '../application/use-cases/GetTeamPlayersUseCase';
 import { RegisterLineupUseCase } from '../application/use-cases/RegisterLineupUseCase';
-import { GetAllTeamsUseCase } from '../application/use-cases/GetAllTeamsUseCase';
 import { SearchTeamByNameUseCase } from '../application/use-cases/SearchTeamByNameUseCase';
-import { CreateTeamDto } from '../application/dtos/create-team.dto';
-import { AddPlayerDto } from '../application/dtos/add-player.dto';
-import { RegisterLineupDto } from '../application/dtos/register-lineup.dto';
+import { UpdateTeamUseCase } from '../application/use-cases/UpdateTeamUseCase';
 
 @Controller('teams')
 export class TeamsController {
@@ -38,7 +37,6 @@ export class TeamsController {
   @Public()
   async getAll() {
     const result = await this.getAllTeamsUseCase.execute();
-    Logger.log(result);
     return result;
   }
 
